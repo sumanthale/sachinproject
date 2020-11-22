@@ -9,8 +9,10 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.ha.entity.Doctor;
+import com.ha.entity.Patient;
 
 public class Docterimpl  implements DoctorInter{
+	
 
 	@Override
 	public void addDoctor(Doctor doctor) {
@@ -33,20 +35,27 @@ public class Docterimpl  implements DoctorInter{
 
 		EntityManager  em1=emf1.createEntityManager();
 		 EntityTransaction  et2=em1.getTransaction();
-
 		 
 		  Query query = em1.createNativeQuery("select * from docter where id =" + id);
 		 			List resultList2 = query.getResultList();
 
-System.out.println(resultList2.get(0));
+		 			System.out.println(resultList2.get(0));
 		
 		
-		return null;
+		 			return (Doctor) resultList2.get(0);
 	}
 
 	@Override
 	public void addPrescriptions(int id, String prescription) {
-		// TODO Auto-generated method stub
+		
+		
+	Doctor patient = findDocterbyId(id);// fetch the Docter
+	patient.setDoctorname(prescription);
+	
+	EntityManagerFactory emf1=Persistence.createEntityManagerFactory("capgemini");
+	EntityManager  em1=emf1.createEntityManager();
+	 EntityTransaction  et2=em1.getTransaction();
+	 em1.persist(patient);
 		
 	}
 
